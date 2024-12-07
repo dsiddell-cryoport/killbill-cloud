@@ -1,0 +1,30 @@
+# Base image
+FROM openjdk:11-jdk
+
+# Environment variables
+ENV KILLBILL_VERSION=latest \
+    KILLBILL_HOME=/opt/killbill
+
+# Install required dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create Kill Bill home directory
+RUN mkdir -p ${KILLBILL_HOME}
+
+# Add templates for Kill Bill
+COPY templates/ ${KILLBILL_HOME}/templates/
+
+# Download and install Kill Bill WAR
+RUN curl -L https://github.com/killbill/killbill/releases/download/${KILLBILL_VERSION}/killbill-${KILLBILL_VERSION}.war -o ${KILLBILL_HOME}/killbill.war
+
+# Copy properties file from docker-compose.yml context
+COPY config/killbill.properties ${KILLBILL_HOME}/config/
+
+# Expose Kill Bill default port
+EXPOSE 8080
+
+# Start Kill Bill
+CMD ["java", "-jar", "/opt/killbill/killbill.war"]
