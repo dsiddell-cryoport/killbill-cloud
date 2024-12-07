@@ -14,6 +14,13 @@ RUN apt-get update && apt-get install -y \
 # Create Kill Bill home directory
 RUN mkdir -p ${KILLBILL_HOME}
 
+# Add a non-root user and set permissions
+RUN groupadd -r killbill && useradd -r -g killbill -d ${KILLBILL_HOME} killbill \
+    && chown -R killbill:killbill ${KILLBILL_HOME}
+
+# Switch to non-root user
+USER killbill
+
 # Add templates for Kill Bill
 COPY templates/ ${KILLBILL_HOME}/templates/
 
@@ -24,7 +31,7 @@ RUN curl -L https://github.com/killbill/killbill/releases/download/${KILLBILL_VE
 COPY config/killbill.properties ${KILLBILL_HOME}/config/
 
 # Expose Kill Bill default port
-EXPOSE 8080
+EXPOSE 9090
 
 # Start Kill Bill
 CMD ["java", "-jar", "/opt/killbill/killbill.war"]
