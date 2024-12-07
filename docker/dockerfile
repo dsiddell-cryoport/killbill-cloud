@@ -14,12 +14,12 @@ RUN apt-get update && apt-get install -y \
 # Create Kill Bill home directory
 RUN mkdir -p ${KILLBILL_HOME}
 
-# Add a non-root user and set permissions
-RUN groupadd -r killbill && useradd -r -g killbill -d ${KILLBILL_HOME} killbill \
+# Add a non-root user with UID and GID between 10000 and 20000
+RUN groupadd -g 10001 killbill && useradd -u 10001 -g 10001 -d ${KILLBILL_HOME} killbill \
     && chown -R killbill:killbill ${KILLBILL_HOME}
 
-# Switch to non-root user
-USER killbill
+# Switch to the created non-root user
+USER 10001
 
 # Add templates for Kill Bill
 COPY templates/ ${KILLBILL_HOME}/templates/
