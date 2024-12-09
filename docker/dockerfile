@@ -22,13 +22,13 @@ RUN groupadd -g 10001 killbill && useradd -u 10001 -g 10001 -d ${KILLBILL_HOME} 
 USER 10001
 
 # Add templates for Kill Bill
-COPY templates/ ${KILLBILL_HOME}/templates/
+COPY docker/templates/ ${KILLBILL_HOME}/templates/
 
 # Download and install Kill Bill WAR
 RUN curl -L https://github.com/killbill/killbill/releases/download/${KILLBILL_VERSION}/killbill-${KILLBILL_VERSION}.war -o ${KILLBILL_HOME}/killbill.war
 
 # Copy properties file from docker-compose.yml context
-COPY config/killbill.properties ${KILLBILL_HOME}/config/
+COPY docker/config/killbill.properties ${KILLBILL_HOME}/config/
 
 # Expose Kill Bill default port
 EXPOSE 8080
