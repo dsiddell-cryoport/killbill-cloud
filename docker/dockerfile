@@ -31,7 +31,7 @@ RUN curl -L https://github.com/killbill/killbill/releases/download/${KILLBILL_VE
 COPY config/killbill.properties ${KILLBILL_HOME}/config/
 
 # Expose Kill Bill default port
-EXPOSE 9090
+EXPOSE 8080
 
 # Start Kill Bill
 CMD ["java", "-jar", "/opt/killbill/killbill.war"]
