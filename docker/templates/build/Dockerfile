@@ -75,6 +75,12 @@ RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true
 #    usermod -aG sudo 10001
 #RUN adduser 10001 --uid 10001 --home $KILLBILL_HOME --disabled-password --gecos '' --force-badname
 
+# Add a non-root user with UID and GID between 10000 and 20000
+#RUN groupadd -g 10001 killbill && useradd -u 10001 -g 10001 -d ${KILLBILL_HOME} killbill \
+#    && chown -R killbill:killbill ${KILLBILL_HOME}
+
+#RUN chown -R 10001:10001 ${KILLBILL_HOME}
+
 # Install RVM
 RUN apt-get update && \
     apt-get install --no-install-recommends -y rvm && \
@@ -89,16 +95,7 @@ USER 10001
 WORKDIR $KILLBILL_HOME
 ENV TERM=xterm
 
-# Add a non-root user with UID and GID between 10000 and 20000
-#RUN groupadd -g 10001 killbill && useradd -u 10001 -g 10001 -d ${KILLBILL_HOME} killbill \
-#    && chown -R killbill:killbill ${KILLBILL_HOME}
-
-RUN chown -R 10001:10001 ${KILLBILL_HOME}
-#RUN chmod -R 755 /var/lib/killbill && mkdir -p $KILLBILL_HOME/.m2
-
-
-# Switch to the created non-root user
-#USER 10001
+RUN chmod -R 755 /var/lib/killbill && mkdir -p $KILLBILL_HOME/.m2
 
 # Setup Maven
 RUN mkdir -p $KILLBILL_HOME/.m2
