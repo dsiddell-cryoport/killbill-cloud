@@ -91,28 +91,30 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y rvm && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Ruby
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm install 3.0.0"
+
+# Install dependencies
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install bundler -v '>=2.0.0'"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install openssl -v '>=2.1.2'"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '>=3.0.1.1'"
+
+# Create a Gemfile dynamically
+RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
+    echo "gem 'bundler', '>=2.0.0'" >> $KILLBILL_HOME/Gemfile && \
+    echo "gem 'openssl', '>=2.1.2'" >> $KILLBILL_HOME/Gemfile && \
+    echo "gem 'stringio', '>=3.0.1.1'" >> $KILLBILL_HOME/Gemfile
+    
 # Add extra rubies
-RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby-9.1.14.0"
+#RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby-9.1.14.0"
 
 # Install Ruby and bundler
 #RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm install 3.0.0"
 #RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 2.7.0 && gem install bundler -v '1.17.3'"
 #RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 2.7.0 && gem install openssl -v '>=2.1.2'"
 
-# Install Ruby 3.0.0
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm install 3.0.0"
-
-# Install compatible bundler version (>= 2.0.0 for Ruby 3.0.0)
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install bundler -v '>=2.0.0'"
-
-# Install compatible openssl version (>= 2.1.2)
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install openssl -v '>=2.1.2'"
-
-# Install compatible stringio version (>= 3.0.1.1)
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '>=3.0.1.1'"
-
 # Copy Gemfile and Gemfile.lock into the working directory
-COPY Gemfile Gemfile.lock $KILLBILL_HOME/
+#COPY Gemfile Gemfile.lock $KILLBILL_HOME/
 WORKDIR $KILLBILL_HOME
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && bundle update"
 
