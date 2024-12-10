@@ -3,7 +3,8 @@ FROM openjdk:11-jdk
 
 # Environment variables
 ENV KILLBILL_VERSION=latest \
-    KILLBILL_HOME=/opt/killbill
+    KILLBILL_HOME=/opt/killbill \
+    TRIVY_DISABLE_VEX_NOTICE=true
 
 # Install required dependencies
 RUN apt-get update && apt-get install -y \
