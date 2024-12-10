@@ -50,26 +50,26 @@ ENV JSSE_HOME=$JAVA_HOME/jre/
 
 # Create killbill user into sudo group and reinitialize the password
 ENV KILLBILL_HOME=/var/lib/killbill
-RUN adduser killbill \
-            --home $KILLBILL_HOME \
-            --disabled-password \
-            --gecos '' && \
-    usermod -aG sudo killbill && \
-    echo "killbill:killbill" | chpasswd && \
-    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-#RUN adduser 10001 \
+#RUN adduser killbill \
 #            --home $KILLBILL_HOME \
 #            --disabled-password \
 #            --gecos '' && \
-#            --force-badname #\
-#    usermod -aG sudo 10001 && \
-#    echo "10001:10001" | chpasswd && \
+#    usermod -aG sudo killbill && \
+#    echo "killbill:killbill" | chpasswd && \
 #    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
-    #chown -R 10001:10001 ${KILLBILL_HOME} \
-    echo "10001 ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN adduser 10001 \
+            --home $KILLBILL_HOME \
+            --disabled-password \
+            --gecos '' && \
+            --force-badname \
+    usermod -aG sudo 10001 && \
+    echo "10001:10001" | chpasswd && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+#RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
+#    #chown -R 10001:10001 ${KILLBILL_HOME} \
+#    echo "10001 ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 #RUN apt-get update && apt-get install -y sudo && \
 #    useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
 #    usermod -aG sudo 10001
@@ -80,6 +80,7 @@ RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true
 #    && chown -R killbill:killbill ${KILLBILL_HOME}
 
 #RUN chown -R 10001:10001 ${KILLBILL_HOME}
+#RUN chmod -R 755 /var/lib/killbill && mkdir -p $KILLBILL_HOME/.m2
 
 # Install RVM
 RUN apt-get update && \
@@ -94,8 +95,6 @@ RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby
 USER 10001
 WORKDIR $KILLBILL_HOME
 ENV TERM=xterm
-
-RUN chmod -R 755 /var/lib/killbill && mkdir -p $KILLBILL_HOME/.m2
 
 # Setup Maven
 RUN mkdir -p $KILLBILL_HOME/.m2
