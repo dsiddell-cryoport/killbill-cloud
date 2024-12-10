@@ -111,6 +111,9 @@ RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem inst
 # Install compatible stringio version (>= 3.0.1.1)
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '>=3.0.1.1'"
 
+# Copy Gemfile and Gemfile.lock into the working directory
+COPY Gemfile Gemfile.lock $KILLBILL_HOME/
+WORKDIR $KILLBILL_HOME
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && bundle update"
 
 
