@@ -7,6 +7,7 @@ ENV LC_CTYPE=en_US.UTF-8
 ENV LC_ALL=C
 ENV LANG=en_US.UTF-8
 ENV PYTHONIOENCODING=utf8
+ENV TRIVY_DISABLE_VEX_NOTICE=true
 
 # Install build dependencies and convenient utilities
 # https://github.com/moby/moby/issues/4032
@@ -92,6 +93,9 @@ RUN apt-get update && \
 
 # Add extra rubies
 RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby-9.1.14.0"
+RUN /bin/bash -l -c "gem install bundler -v '>=2.0.0'"
+RUN /bin/bash -l -c "gem install openssl -v '>=2.1.2'"
+RUN /bin/bash -l -c "bundle update"
 
 # Set killbill as the default user
 #USER killbill
