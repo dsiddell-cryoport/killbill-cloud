@@ -100,13 +100,13 @@ WORKDIR $KILLBILL_HOME
 ENV TERM=xterm
 
 # Setup Maven
-RUN mkdir -p $KILLBILL_HOME/.m2
+#RUN mkdir -p $KILLBILL_HOME/.m2
 COPY /docker/templates/build/settings.xml $KILLBILL_HOME/.m2/settings.xml
 
 # Setup git
-RUN git config --global user.name "Kill Bill core team" && \
-    git config --global user.email "contact@killbill.io" && \
-    git config --global push.default simple && \
-    git config --global credential.helper store
+#RUN git config --global user.name "Kill Bill core team" && \
+#    git config --global user.email "contact@killbill.io" && \
+#    git config --global push.default simple && \
+#    git config --global credential.helper store
 
 CMD ["bash"]
