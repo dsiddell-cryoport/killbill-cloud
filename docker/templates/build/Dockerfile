@@ -57,6 +57,14 @@ RUN adduser killbill \
     echo "killbill:killbill" | chpasswd && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
+RUN adduser 10001 \
+            --home $KILLBILL_HOME \
+            --disabled-password \
+            --gecos '' && \
+    usermod -aG sudo 10001 && \
+    echo "10001:10001" | chpasswd && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 # Install RVM
 RUN apt-get update && \
     apt-get install --no-install-recommends -y rvm && \
@@ -67,15 +75,16 @@ RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby
 
 # Set killbill as the default user
 #USER killbill
+USER 10001
 WORKDIR $KILLBILL_HOME
 ENV TERM=xterm
 
 # Add a non-root user with UID and GID between 10000 and 20000
-RUN groupadd -g 10001 killbill && useradd -u 10001 -g 10001 -d ${KILLBILL_HOME} killbill \
-    && chown -R killbill:killbill ${KILLBILL_HOME}
+#RUN groupadd -g 10001 killbill && useradd -u 10001 -g 10001 -d ${KILLBILL_HOME} killbill \
+#    && chown -R killbill:killbill ${KILLBILL_HOME}
 
 # Switch to the created non-root user
-USER 10001
+#USER 10001
 
 # Setup Maven
 RUN mkdir -p $KILLBILL_HOME/.m2
