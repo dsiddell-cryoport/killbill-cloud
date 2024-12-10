@@ -111,7 +111,7 @@ RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem inst
 # Install compatible stringio version (>= 3.0.1.1)
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '>=3.0.1.1'"
 
-#RUN /bin/bash -l -c "bundle update"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && bundle update"
 
 
 # Set killbill as the default user
