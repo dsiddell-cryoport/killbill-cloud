@@ -14,6 +14,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
       # https://github.com/tianon/docker-brew-ubuntu-core/issues/59
+      #adduser \
       apt-utils \
       build-essential \
       curl \
@@ -66,7 +67,7 @@ RUN adduser killbill \
 #    echo "10001:10001" | chpasswd && \
 #    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash 10001
+RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true
 #RUN adduser 10001 --uid 10001 --home $KILLBILL_HOME --disabled-password --gecos '' --force-badname
 
 # Install RVM
