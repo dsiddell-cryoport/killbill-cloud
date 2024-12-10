@@ -67,7 +67,8 @@ RUN adduser killbill \
 #    echo "10001:10001" | chpasswd && \
 #    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true
+RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
+    echo "10001 ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 #RUN adduser 10001 --uid 10001 --home $KILLBILL_HOME --disabled-password --gecos '' --force-badname
 
 # Install RVM
