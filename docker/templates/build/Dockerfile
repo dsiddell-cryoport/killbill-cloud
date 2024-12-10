@@ -99,9 +99,18 @@ RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby
 #RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 2.7.0 && gem install bundler -v '1.17.3'"
 #RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 2.7.0 && gem install openssl -v '>=2.1.2'"
 
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm install 2.7.0"
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 2.7.0 && gem install bundler -v '1.17.3'"
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 2.7.0 && gem install openssl -v '>=2.2.3'"
+# Install Ruby 3.0.0
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm install 3.0.0"
+
+# Install compatible bundler version (>= 2.0.0 for Ruby 3.0.0)
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install bundler -v '>=2.0.0'"
+
+# Install compatible openssl version (>= 2.1.2)
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install openssl -v '>=2.1.2'"
+
+# Install compatible stringio version (>= 3.0.1.1)
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '>=3.0.1.1'"
+
 #RUN /bin/bash -l -c "bundle update"
 
 
