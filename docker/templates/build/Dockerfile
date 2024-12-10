@@ -93,7 +93,9 @@ RUN apt-get update && \
 
 # Add extra rubies
 RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby-9.1.14.0"
-RUN /bin/bash -l -c "gem install bundler -v '>=2.0.0'"
+#RUN /bin/bash -l -c "rvm install 3.0.0"
+#RUN /bin/bash -l -c "gem install bundler -v '>=2.0.0'"
+RUN /bin/bash -l -c "gem install bundler -v '>=1.17.3'"
 RUN /bin/bash -l -c "gem install openssl -v '>=2.1.2'"
 RUN /bin/bash -l -c "bundle update"
 
