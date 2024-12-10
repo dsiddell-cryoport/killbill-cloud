@@ -79,7 +79,7 @@ USER 10001
 
 # Setup Maven
 RUN mkdir -p $KILLBILL_HOME/.m2
-COPY ./settings.xml $KILLBILL_HOME/.m2/settings.xml
+COPY /docker/templates/build/settings.xml $KILLBILL_HOME/.m2/settings.xml
 
 # Setup git
 RUN git config --global user.name "Kill Bill core team" && \
