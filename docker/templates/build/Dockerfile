@@ -61,7 +61,7 @@ RUN adduser 10001 \
             --home $KILLBILL_HOME \
             --disabled-password \
             --gecos '' && \
-            --force-badname
+            --force-badname \
     usermod -aG sudo 10001 && \
     echo "10001:10001" | chpasswd && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
