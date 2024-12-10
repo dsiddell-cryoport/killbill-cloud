@@ -50,6 +50,8 @@ ENV JSSE_HOME=$JAVA_HOME/jre/
 
 # Create killbill user into sudo group and reinitialize the password
 ENV KILLBILL_HOME=/var/lib/killbill
+RUN mkdir -p $KILLBILL_HOME/.m2
+
 #RUN adduser killbill \
 #            --home $KILLBILL_HOME \
 #            --disabled-password \
@@ -58,18 +60,19 @@ ENV KILLBILL_HOME=/var/lib/killbill
 #    echo "killbill:killbill" | chpasswd && \
 #    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN adduser 10001 \
-            --home $KILLBILL_HOME \
-            --disabled-password \
-            --gecos '' && \
-            --force-badname  || true && \
-    usermod -aG sudo 10001 && \
-    echo "10001:10001" | chpasswd && \
-    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+#RUN adduser 10001 \
+#            --home $KILLBILL_HOME \
+#            --disabled-password \
+#            --gecos '' && \
+#            --force-badname  || true && \
+#    usermod -aG sudo 10001 && \
+#    echo "10001:10001" | chpasswd && \
+#    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-#RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
-#    #chown -R 10001:10001 ${KILLBILL_HOME} \
-#    echo "10001 ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
+    #chown -R 10001:10001 ${KILLBILL_HOME} \
+    echo "10001 ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 #RUN apt-get update && apt-get install -y sudo && \
 #    useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
 #    usermod -aG sudo 10001
