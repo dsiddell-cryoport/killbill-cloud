@@ -68,7 +68,7 @@ RUN adduser killbill \
 #    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
-    chown -R 10001:10001 ${KILLBILL_HOME} \
+    #chown -R 10001:10001 ${KILLBILL_HOME} \
     echo "10001 ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 #RUN apt-get update && apt-get install -y sudo && \
 #    useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
@@ -93,7 +93,9 @@ ENV TERM=xterm
 #RUN groupadd -g 10001 killbill && useradd -u 10001 -g 10001 -d ${KILLBILL_HOME} killbill \
 #    && chown -R killbill:killbill ${KILLBILL_HOME}
 
-RUN chmod -R 755 /var/lib/killbill && mkdir -p $KILLBILL_HOME/.m2
+RUN chown -R 10001:10001 ${KILLBILL_HOME}
+#RUN chmod -R 755 /var/lib/killbill && mkdir -p $KILLBILL_HOME/.m2
+
 
 # Switch to the created non-root user
 #USER 10001
