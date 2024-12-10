@@ -41,13 +41,6 @@ RUN apt-get update && \
     apt-add-repository -y ppa:rael-gc/rvm && \
     rm -rf /var/lib/apt/lists/*
 
-# Add a non-root user with UID and GID between 10000 and 20000
-RUN groupadd -g 10001 killbill && useradd -u 10001 -g 10001 -d ${KILLBILL_HOME} killbill \
-    && chown -R killbill:killbill ${KILLBILL_HOME}
-
-# Switch to the created non-root user
-USER 10001
-
 # Configure default JAVA_HOME path
 RUN update-java-alternatives -s java-1.11.0-openjdk-$(dpkg --print-architecture)
 RUN rm -f /usr/lib/jvm/default-java && ln -s java-11-openjdk-$(dpkg --print-architecture) /usr/lib/jvm/default-java
@@ -73,9 +66,16 @@ RUN apt-get update && \
 RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby-9.1.14.0"
 
 # Set killbill as the default user
-USER killbill
+#USER killbill
 WORKDIR $KILLBILL_HOME
 ENV TERM=xterm
+
+# Add a non-root user with UID and GID between 10000 and 20000
+RUN groupadd -g 10001 killbill && useradd -u 10001 -g 10001 -d ${KILLBILL_HOME} killbill \
+    && chown -R killbill:killbill ${KILLBILL_HOME}
+
+# Switch to the created non-root user
+USER 10001
 
 # Setup Maven
 RUN mkdir -p $KILLBILL_HOME/.m2
