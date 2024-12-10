@@ -68,7 +68,7 @@ RUN adduser killbill \
 #    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 RUN useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
-    && chown -R 10001:10001 ${KILLBILL_HOME} \
+    chown -R 10001:10001 ${KILLBILL_HOME} \
     echo "10001 ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 #RUN apt-get update && apt-get install -y sudo && \
 #    useradd -u 10001 -m -d ${KILLBILL_HOME} -s /bin/bash --badname 10001 || true && \
