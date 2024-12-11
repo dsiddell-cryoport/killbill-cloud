@@ -99,8 +99,13 @@ RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem inst
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install openssl -v '>=2.1.2'"
 #RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '>=3.0.1.1'"
 
-# Explicitly install stringio version 3.1.2
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem uninstall stringio -a -x && gem install stringio -v '3.1.2'"
+# Clear gem cache, uninstall stringio, and install the correct version
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem uninstall stringio -a -x"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '3.1.2' --force"
+
+# Verify gem installation
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem list | grep stringio"
+
 
 # Create a Gemfile dynamically
 RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
