@@ -99,19 +99,19 @@ RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem inst
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install openssl -v '>=2.1.2'"
 
 # Clear gem cache, uninstall stringio, and install the correct version
-#RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem clean"
-#RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem uninstall stringio -a -x"
-#RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '3.1.2' --force"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem clean"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem uninstall stringio -a -x"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '3.1.2' --force"
 
 # Verify gem installation
-#RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem list | grep stringio"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem list | grep stringio"
 
 # Create a Gemfile dynamically
 WORKDIR $KILLBILL_HOME
 RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
     echo "gem 'bundler', '>=2.0.0'" >> $KILLBILL_HOME/Gemfile && \
-    echo "gem 'openssl', '>=2.1.2'" >> $KILLBILL_HOME/Gemfile #&& \
-   # echo "gem 'stringio', '3.1.2'" >> $KILLBILL_HOME/Gemfile
+    echo "gem 'openssl', '>=2.1.2'" >> $KILLBILL_HOME/Gemfile && \
+    echo "gem 'stringio', '3.1.2'" >> $KILLBILL_HOME/Gemfile
     
 # Add extra rubies
 #RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby-9.1.14.0"
@@ -124,7 +124,7 @@ RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
 # Copy Gemfile and Gemfile.lock into the working directory
 #COPY Gemfile Gemfile.lock $KILLBILL_HOME/
 #WORKDIR $KILLBILL_HOME
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && bundle install"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && bundle check || bundle install"
 
 
 # Set killbill as the default user
