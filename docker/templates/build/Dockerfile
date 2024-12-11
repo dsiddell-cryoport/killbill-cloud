@@ -97,7 +97,10 @@ RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm install 3.0.0"
 # Install dependencies
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install bundler -v '>=2.0.0'"
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install openssl -v '>=2.1.2'"
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '>=3.0.1.1'"
+#RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '>=3.0.1.1'"
+
+# Explicitly install stringio version 3.1.2
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem uninstall stringio -a -x && gem install stringio -v '3.1.2'"
 
 # Create a Gemfile dynamically
 RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
