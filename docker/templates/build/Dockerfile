@@ -97,15 +97,14 @@ RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm install 3.0.0"
 # Install dependencies
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install bundler -v '>=2.0.0'"
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install openssl -v '>=2.1.2'"
-#RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '>=3.0.1.1'"
 
 # Clear gem cache, uninstall stringio, and install the correct version
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem clean"
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem uninstall stringio -a -x"
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem install stringio -v '3.1.2' --force"
 
 # Verify gem installation
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem list | grep stringio"
-
 
 # Create a Gemfile dynamically
 RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
@@ -124,7 +123,7 @@ RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
 # Copy Gemfile and Gemfile.lock into the working directory
 #COPY Gemfile Gemfile.lock $KILLBILL_HOME/
 WORKDIR $KILLBILL_HOME
-RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && bundle update"
+RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && bundle install"
 
 
 # Set killbill as the default user
