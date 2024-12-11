@@ -107,6 +107,7 @@ RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem inst
 #RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem list | grep stringio"
 
 # Create a Gemfile dynamically
+WORKDIR $KILLBILL_HOME
 RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
     echo "gem 'bundler', '>=2.0.0'" >> $KILLBILL_HOME/Gemfile && \
     echo "gem 'openssl', '>=2.1.2'" >> $KILLBILL_HOME/Gemfile #&& \
@@ -122,7 +123,7 @@ RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
 
 # Copy Gemfile and Gemfile.lock into the working directory
 #COPY Gemfile Gemfile.lock $KILLBILL_HOME/
-WORKDIR $KILLBILL_HOME
+#WORKDIR $KILLBILL_HOME
 RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && bundle install"
 
 
