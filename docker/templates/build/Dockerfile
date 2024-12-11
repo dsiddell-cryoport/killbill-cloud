@@ -111,7 +111,7 @@ RUN /bin/bash -c "source /usr/share/rvm/scripts/rvm && rvm use 3.0.0 && gem list
 RUN echo "source 'https://rubygems.org'" > $KILLBILL_HOME/Gemfile && \
     echo "gem 'bundler', '>=2.0.0'" >> $KILLBILL_HOME/Gemfile && \
     echo "gem 'openssl', '>=2.1.2'" >> $KILLBILL_HOME/Gemfile && \
-    echo "gem 'stringio', '>=3.0.1.1'" >> $KILLBILL_HOME/Gemfile
+    echo "gem 'stringio', '3.1.2'" >> $KILLBILL_HOME/Gemfile
     
 # Add extra rubies
 #RUN /bin/bash -l -c "rvm install 2.2.2 && rvm install 2.4.2 && rvm install jruby-9.1.14.0"
